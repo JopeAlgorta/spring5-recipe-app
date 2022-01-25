@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>View Ingredient</title>
+
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<!--/*@thymesVar id="ingredient" type="guru.springframework.commands.IngredientCommand"*/-->
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Ingredient: <span class="text-success" th:text="${ingredient.description}"></span></h3>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h6>Amount: </h6>
+                            <p th:text="${ingredient.amount} + ' ' + ${ingredient.uom.getDescription()}"></p>
+                        </div>
+                        <div class="col d-flex align-items-center justify-content-center">
+                            <div>
+                                <a type="button" class="btn btn-secondary"
+                                   th:href="@{'/recipe/' + ${ingredient.recipeId} + '/ingredient/' + ${ingredient.id} + '/edit'}">Edit</a>
+                                <a type="button" class="btn btn-danger"
+                                   th:href="@{'/recipe/' + ${ingredient.recipeId} + '/ingredient/' + ${ingredient.id} + '/delete'}">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--          <div class="table-responsive">-->
+                    <!--            <table class="table table-hover ">-->
+                    <!--              <thead class="thead-inverse">-->
+                    <!--              <tr>-->
+                    <!--                <th>ID</th>-->
+                    <!--                <th>Description</th>-->
+                    <!--              </tr>-->
+                    <!--              </thead>-->
+                    <!--              <tr th:remove="all">-->
+                    <!--                <td>12333</td>-->
+                    <!--                <td>Tasty Goodnees 2</td>-->
+                    <!--                <td><a href="#">View</a></td>-->
+                    <!--                <td><a href="#">Update</a></td>-->
+                    <!--                <td><a href="#">Delete</a></td>-->
+                    <!--              </tr>-->
+                    <!--              <tr>-->
+                    <!--                <td th:text="${ingredient.id}">334</td>-->
+                    <!--                <td th:text="${ingredient.amount} + ' ' + ${ingredient.uom.getDescription()} + ' ' + ${ingredient.description}">Tasty Goodnees 3</td>-->
+                    <!--              </tr>-->
+                    <!--            </table>-->
+                    <!--          </div>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

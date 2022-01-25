@@ -16,11 +16,13 @@
                     <h3 class="text-success" th:text="${recipe.description}">Recipe Description Here!</h3>
                 </div>
                 <div class="card-body">
-                    <div class="mb-3">
-                        <span th:remove="all" class="badge bg-primary rounded-pill">Cat 1</span>
-                        <span th:remove="all" class="badge bg-primary rounded-pill">Cat 2</span>
-                        <span th:each="category : ${recipe.categories}" th:text="${category.getDescription()}"
-                              class="badge bg-primary rounded-pill">Cat 3</span>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <span th:remove="all" class="badge bg-primary rounded-pill">Cat 1</span>
+                            <span th:remove="all" class="badge bg-primary rounded-pill">Cat 2</span>
+                            <span th:each="category : ${recipe.categories}" th:text="${category.getDescription()}"
+                                  class="badge bg-primary rounded-pill me-2">Cat 3</span>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-3">
@@ -72,7 +74,14 @@
         <div class="col-6">
             <div class="card h-100">
                 <div class="card-header">
-                    <h3>Ingredients</h3>
+                    <div class="row">
+                        <div class="col">
+                            <h3>Ingredients</h3>
+                        </div>
+                        <div class="col text-end">
+                            <a th:href="@{'/recipe/' + ${recipe.id} + '/ingredient'}" class="btn btn-outline-secondary">View</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <ul>
@@ -95,7 +104,8 @@
                     <h3>Directions</h3>
                 </div>
                 <div class="card-body">
-                    <p class="card-text" style="white-space: pre-wrap" th:text="${recipe.directions}">Lorem ipsum dolor sit amet, consectetuer
+                    <p class="card-text" style="white-space: pre-wrap" th:text="${recipe.directions}">Lorem ipsum dolor
+                        sit amet, consectetuer
                         adipiscing elit. Aenean commodo ligula
                         eget
                         dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes,

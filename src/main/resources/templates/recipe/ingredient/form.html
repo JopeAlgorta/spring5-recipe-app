@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Ingredient</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!--/*@thymesVar id="ingredient" type="guru.springframework.commands.IngredientCommand"*/-->
+            <form th:object="${ingredient}" th:action="@{'/recipe/' + ${ingredient.getRecipeId()} + '/ingredient'} "
+                  method="post">
+                <input type="hidden" th:field="*{id}"/>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 th:if="${ingredient.description}">Edit Ingredient Information</h3>
+                        <h3 th:unless="${ingredient.description}">New Ingredient</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label for="desc-field" class="form-label">Name:</label>
+                                <input id="desc-field" type="text" class="form-control" th:field="*{description}"/>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="amo-field" class="form-label">Amount:</label>
+                                <input id="amo-field" type="number" class="form-control" th:field="*{amount}"/>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="uom-field" class="form-label">Unit of Measure:</label>
+                                <select id="uom-field" class="form-select" name="uom.id">
+                                    <option th:each="uom : ${unitsOfMeasure}"
+                                            th:value="${uom.id}"
+                                            th:selected="${uom.id.equals(ingredient.uom.id)}"
+                                            th:text="${uom.description}">Each
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-end">
+                                <a th:href="@{'/recipe/' + ${ingredient.recipeId} + '/ingredient'}"
+                                   class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

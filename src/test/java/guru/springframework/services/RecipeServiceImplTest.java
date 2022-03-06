@@ -5,6 +5,7 @@ import guru.springframework.commands.RecipeCommand;
 import guru.springframework.converters.RecipeCommandToRecipe;
 import guru.springframework.converters.RecipeToRecipeCommand;
 import guru.springframework.domain.Recipe;
+import guru.springframework.exceptions.NotFoundException;
 import guru.springframework.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,6 +42,15 @@ public class RecipeServiceImplTest {
         MockitoAnnotations.initMocks(this);
 
         recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdTestNotFound() throws Exception {
+        Optional<Recipe> recipe = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(recipe);
+
+        Recipe returnedRecipe = recipeService.findById(1L);
     }
 
     @Test
@@ -97,7 +107,7 @@ public class RecipeServiceImplTest {
     @Test
     public void deleteRecipeByIdTest() throws Exception {
         //given
-        Long idToDelete = Long.valueOf(2L);
+        Long idToDelete = 2L;
         //when
         recipeService.deleteById(idToDelete);
         //no 'when', since method has void return type

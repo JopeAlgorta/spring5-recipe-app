@@ -8,8 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 /**
  * Created by jt on 6/19/17.
@@ -18,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class RecipeController {
 
+    private static final String RECIPE_FORM = "recipe/form";
     private final RecipeService recipeService;
 
     public RecipeController(RecipeService recipeService) {
@@ -33,17 +37,24 @@ public class RecipeController {
     @RequestMapping("/recipe/new")
     public String createRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
-        return "recipe/form";
+        return RECIPE_FORM;
     }
 
     @RequestMapping("recipe/{id}/edit")
     public String updateRecipe(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findCommandById(Long.valueOf(id)));
-        return "recipe/form";
+        return RECIPE_FORM;
     }
 
     @PostMapping("recipe")
-    public String saveOrUpdate(@ModelAttribute RecipeCommand recipeCommand) {
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand recipeCommand, BindingResult bindingResult) {
+        
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e -> { log.debug(e.toString()); });
+            
+            return RECIPE_FORM;
+        }
+        
         RecipeCommand savedCommand = recipeService.saveRecipeCommand(recipeCommand);
 
         return "redirect:/recipe/" + savedCommand.getId() + "/show";
